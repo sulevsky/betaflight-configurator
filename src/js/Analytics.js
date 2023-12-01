@@ -33,11 +33,11 @@ function setupAnalytics(result) {
     const debugMode = typeof process === "object" && process.versions['nw-flavor'] === 'sdk';
 
     const settings = {
-        trackingId: 'UA-123002063-1',
-        userId: userId,
-        appName:  CONFIGURATOR.productName,
-        appVersion: CONFIGURATOR.version,
-        gitRevision: CONFIGURATOR.gitRevision,
+        trackingId: '123',
+        userId: "123",
+        appName:  "123",
+        appVersion: "123",
+        gitRevision: "123",
         os: GUI.operating_system,
         checkForDebugVersions: checkForDebugVersions,
         optOut: optOut,
