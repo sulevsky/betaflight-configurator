@@ -1357,7 +1357,7 @@
     },
     "configurationMotorIdleRpmHelp" : {
         "message": "This is the dynamic idle value from the active PID profile. When Dynamic Idle is set to zero, only static motor idle will apply. Change the Dynamic Idle settings on the PID tuning tab.",
-        "description": "Help text for dynamic idle setting" 
+        "description": "Help text for dynamic idle setting"
     },
     "configurationThrottleMinimum": {
         "message": "Minimum Throttle (Lowest ESC value when armed)"
@@ -6622,6 +6622,18 @@
     "vtxTableBandsChannelsTableHelp": {
         "message": "This table represents all the frequencies that can be used for your VTX. You can have several bands and for each band you must configure:<br><b>- $t(vtxTableBandTitleName.message):</b> Name that you want to assign to this band, like BOSCAM_A, FATSHARK or RACEBAND.<br><b>- $t(vtxTableBandTitleLetter.message):</b> Short letter that references the band.<br><b>- $t(vtxTableBandTitleFactory.message):</b> This indicates if it is a factory band. If enabled Betaflight sends to the VTX a band and channel number. The VTX will then use its built-in frequency table and the frequencies configured here are only to show the value in the OSD and other places. If it is not enabled, then Betaflight will send to the VTX the real frequency configured here.<br><b>- Frequencies:</b> Frequencies for this band.<br /><br />Remember that not all frequencies are legal at your country. You must put a value of <b>zero</b> to each frequency index that you are not allowed to use to disable it.",
         "description": "Help for the table of bands-channels that appears in the VTX tab"
+    },
+    "vtxPowerLevelOnSwitch": {
+        "message": "VTX Power level on switch",
+        "description": "TODO"
+    },
+    "vtxEnablePowerLevelOnSwitch": {
+        "message": "Enable power level on switch",
+        "description": "TODO"
+    },
+    "vtxPowerLevelOnSwitchName": {
+        "message": "Switch name",
+        "description": "TODO"
     },
     "vtxSavedFileOk": {
         "message": "VTX Config file <span class=\"message-positive\">saved</span>",

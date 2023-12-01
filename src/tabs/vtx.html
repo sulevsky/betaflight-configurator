@@ -249,6 +249,154 @@
 
                     </div>
 
+        <div class="leftWrapper">
+
+            <div id="vtx_powerlevel_on_switch" class="gui_box grey vtx_table_box vtx_table_available">
+
+                <div class="gui_box_titlebar">
+                    <div class="spacer_box_title" i18n="vtxPowerLevelOnSwitch"></div>
+                </div>
+
+                <div class="spacer_box">
+                    <div class="field checkbox vtx_enable_powerlevel_on_switch">
+                      <span class="checkboxspacer">
+                          <input type="checkbox" id="vtx_enable_powerlevel_on_switch" class="toggle"/>
+                      </span>
+                        <label>
+                            <span  i18n="vtxEnablePowerLevelOnSwitch"></span>
+                        </label>
+                    </div>
+
+                    <div class="field number powerlevel_on_switch_switch_name">
+                      <span class="numberspacer">
+                          <select id="vtx_powerlevel_on_switch_switch_name">
+                              <!-- zero indexed-->
+                              <option value="0">AUX 1</option>
+                              <option value="1">AUX 2</option>
+                              <option value="2">AUX 3</option>
+                              <option value="3">AUX 4</option>
+                              <option value="4">AUX 5</option>
+                              <option value="5">AUX 6</option>
+                              <option value="6">AUX 7</option>
+                              <option value="7">AUX 8</option>
+                              <option value="8">AUX 9</option>
+                              <option value="9">AUX 10</option>
+                              <option value="10">AUX 11</option>
+                              <option value="11">AUX 12</option>
+                          </select>
+                      </span>
+                        <label>
+                            <span i18n="vtxPowerLevelOnSwitchName"></span>
+                        </label>
+                    </div>
+
+                    <div class="field number table vtx_powerlevels_on_switch_entry">
+                    <span>
+                        <table class="table_vtx_powerlevels">
+                            <tbody>
+                            <tr class="vtx_table_powerlevels_title">
+                                <td>
+                                <label>
+                                    <span i18n="power level name"></span>
+                                </label>
+                                </td>
+                                <td>
+                                <label>
+                                    <span i18n="Switch min value"></span>
+                                </label>
+                                </td>
+                                <td>
+                                <label>
+                                    <span i18n="Switch max value"></span>
+                                </label>
+                                </td>
+                            </tr>
+                            <tr class="vtx_table_powerlevels_title">
+                                <td>
+                                    <span class="numberspacer field_powerlevel_value"><input type="number"
+                                                                                             id="vtx_powerlevels_on_switch_1"
+                                                                                             min="1" max="8"
+                                                                                             value="1">
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="numberspacer field_powerlevel_value"><input type="number"
+                                                                                             id="vtx_powerlevels_on_switch_1_min"
+                                                                                             min="0"
+                                                                                             max="65535"
+                                                                                             value="900">
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="numberspacer field_powerlevel_value"><input type="number"
+                                                                                             id="vtx_powerlevels_on_switch_1_max"
+                                                                                             min="0"
+                                                                                             max="65535"
+                                                                                             value="1200">
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr class="vtx_table_powerlevels_title">
+                                <td>
+                                    <span class="numberspacer field_powerlevel_value"><input type="number"
+                                                                                             id="vtx_powerlevels_on_switch_2"
+                                                                                             min="1" max="8"
+                                                                                             value="2">
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="numberspacer field_powerlevel_value"><input type="number"
+                                                                                             id="vtx_powerlevels_on_switch_2_min"
+                                                                                             min="0"
+                                                                                             max="65535"
+                                                                                             value="1250">
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="numberspacer field_powerlevel_value"><input type="number"
+                                                                                             id="vtx_powerlevels_on_switch_2_max"
+                                                                                             min="0"
+                                                                                             max="65535"
+                                                                                             value="1800">
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr class="vtx_table_powerlevels_title">
+                                <td>
+                                    <span class="numberspacer field_powerlevel_value"><input type="number"
+                                                                                             id="vtx_powerlevels_on_switch_3"
+                                                                                             min="1" max="8"
+                                                                                             value="3">
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="numberspacer field_powerlevel_value"><input type="number"
+                                                                                             id="vtx_powerlevels_on_switch_3_min"
+                                                                                             min="0"
+                                                                                             max="65535"
+                                                                                             value="1850">
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="numberspacer field_powerlevel_value"><input type="number"
+                                                                                             id="vtx_powerlevels_on_switch_3_max"
+                                                                                             min="0"
+                                                                                             max="65535"
+                                                                                             value="2100">
+                                    </span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </span>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
 
     </div>
 

@@ -25,6 +25,7 @@ const vtx = {
     MAX_BAND_CHANNELS_VALUES: 8,
     VTXTABLE_BAND_LIST: [],
     VTXTABLE_POWERLEVEL_LIST: [],
+    VTX_POWER_LEVEL_ON_SWITCH: {},
     analyticsChanges: {},
     updating: true,
     env: new djv(),
@@ -261,7 +262,8 @@ vtx.initialize = function (callback) {
 
         $(".vtx_supported").toggle(vtxSupported);
         $(".vtx_not_supported").toggle(!vtxSupported);
-        $(".vtx_table_available").toggle(vtxSupported && FC.VTX_CONFIG.vtx_table_available);
+        // $(".vtx_table_available").toggle(vtxSupported && FC.VTX_CONFIG.vtx_table_available);
+        $(".vtx_table_available").toggle(true);
         $(".vtx_table_not_configured").toggle(vtxTableNotConfigured);
         $(".vtx_table_save_pending").toggle(TABS.vtx.vtxTableSavePending);
         $(".factory_band").toggle(TABS.vtx.vtxTableFactoryBandsSupported);
@@ -394,6 +396,26 @@ vtx.initialize = function (callback) {
         }
 
         $("#vtx_table_powerlevels").on('input', showHidePowerlevels).trigger('input');
+
+        $("#vtx_enable_powerlevel_on_switch").change(function() {
+            const checked = $(this).is(':checked');
+            TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.enabled = checked;
+            $(`.powerlevel_on_switch_switch_name`).toggle(checked);
+            $(`.vtx_powerlevels_on_switch_entry`).toggle(checked);
+        }).change();
+
+        if ($("#vtx_enable_powerlevel_on_switch").prop('checked')) {
+            $("#vtx_powerlevel_on_switch_switch_name").val(TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.aux);
+            $(`#vtx_powerlevels_on_switch_1`).val(TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel1)
+            $(`#vtx_powerlevels_on_switch_1_min`).val(TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel1Min)
+            $(`#vtx_powerlevels_on_switch_1_max`).val(TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel1Max)
+            $(`#vtx_powerlevels_on_switch_2`).val(TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel2)
+            $(`#vtx_powerlevels_on_switch_2_min`).val(TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel2Min)
+            $(`#vtx_powerlevels_on_switch_2_max`).val(TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel2Max)
+            $(`#vtx_powerlevels_on_switch_3`).val(TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel3)
+            $(`#vtx_powerlevels_on_switch_3_min`).val(TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel3Min)
+            $(`#vtx_powerlevels_on_switch_3_max`).val(TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel3Max)
+        }
 
         function showHideBands() {
             const bandsValue = $(this).val();
@@ -845,11 +867,36 @@ vtx.initialize = function (callback) {
 
         // Start MSP saving
         save_vtx_config();
+        save_power_level_on_switch_config();
 
         tracking.sendSaveAndChangeEvents(tracking.EVENT_CATEGORIES.FLIGHT_CONTROLLER, self.analyticsChanges, 'vtx');
 
         function save_vtx_config() {
             MSP.send_message(MSPCodes.MSP_SET_VTX_CONFIG, mspHelper.crunch(MSPCodes.MSP_SET_VTX_CONFIG), false, save_vtx_powerlevels);
+        }
+
+        function save_power_level_on_switch_config() {
+            if (!TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.enabled) {
+                return
+            }
+            let aux = TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.aux
+
+            let powerLevel1 = TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel1;
+            let powerLevel1Min = TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel1Min;
+            let powerLevel1Max = TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel1Max;
+
+            let powerLevel2 = TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel2;
+            let powerLevel2Min = TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel2Min;
+            let powerLevel2Max = TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel2Max;
+
+            let powerLevel3 = TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel3;
+            let powerLevel3Min = TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel3Min;
+            let powerLevel3Max = TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel3Max;
+
+            TABS.cli.sendLine(`vtx 0 ${aux} 0 0 ${powerLevel1} ${powerLevel1Min} ${powerLevel1Max}`)
+            TABS.cli.sendLine(`vtx 1 ${aux} 0 0 ${powerLevel2} ${powerLevel2Min} ${powerLevel2Max}`)
+            TABS.cli.sendLine(`vtx 2 ${aux} 0 0 ${powerLevel3} ${powerLevel3Min} ${powerLevel3Max}`)
+            TABS.cli.sendLine("save")
         }
 
         function save_vtx_powerlevels() {
@@ -863,7 +910,12 @@ vtx.initialize = function (callback) {
 
 
             if (save_vtx_powerlevels.counter < FC.VTX_CONFIG.vtx_table_powerlevels) {
+
                 FC.VTXTABLE_POWERLEVEL = Object.assign({}, TABS.vtx.VTXTABLE_POWERLEVEL_LIST[save_vtx_powerlevels.counter]);
+                console.log("FC.VTXTABLE_POWERLEVEL")
+                console.log(FC.VTXTABLE_POWERLEVEL)
+                console.log("mspHelper.crunch(MSPCodes.MSP_SET_VTXTABLE_POWERLEVEL)")
+                console.log(mspHelper.crunch(MSPCodes.MSP_SET_VTXTABLE_POWERLEVEL))
                 MSP.send_message(MSPCodes.MSP_SET_VTXTABLE_POWERLEVEL, mspHelper.crunch(MSPCodes.MSP_SET_VTXTABLE_POWERLEVEL), false, save_vtx_powerlevels);
             } else {
                 save_vtx_powerlevels.counter = undefined;
@@ -968,7 +1020,32 @@ vtx.initialize = function (callback) {
                 TABS.vtx.VTXTABLE_BAND_LIST[i - 1].vtxtable_band_frequencies.push(parseInt($(`#vtx_table_band_channel_${i}_${j}`).val()));
             }
         }
+        // Power levels on switch
+        if(TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.enabled){
+            let aux = $(`#vtx_powerlevel_on_switch_switch_name`).val()
+            let powerLevel1 = $(`#vtx_powerlevels_on_switch_1`).val()
+            let powerLevel1Min = $(`#vtx_powerlevels_on_switch_1_min`).val()
+            let powerLevel1Max = $(`#vtx_powerlevels_on_switch_1_max`).val()
+            let powerLevel2 = $(`#vtx_powerlevels_on_switch_2`).val()
+            let powerLevel2Min = $(`#vtx_powerlevels_on_switch_2_min`).val()
+            let powerLevel2Max = $(`#vtx_powerlevels_on_switch_2_max`).val()
+            let powerLevel3 = $(`#vtx_powerlevels_on_switch_3`).val()
+            let powerLevel3Min = $(`#vtx_powerlevels_on_switch_3_min`).val()
+            let powerLevel3Max = $(`#vtx_powerlevels_on_switch_3_max`).val()
+            TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.aux = aux
 
+            TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel1 = powerLevel1
+            TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel1Min = powerLevel1Min
+            TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel1Max = powerLevel1Max
+
+            TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel2 = powerLevel2
+            TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel2Min = powerLevel2Min
+            TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel2Max = powerLevel2Max
+
+            TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel3 = powerLevel3
+            TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel3Min = powerLevel3Min
+            TABS.vtx.VTX_POWER_LEVEL_ON_SWITCH.powerLevel3Max = powerLevel3Max
+        }
     }
 
     // Copies from the MSP data to the vtxInfo object (JSON)
