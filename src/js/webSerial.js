@@ -49,72 +49,47 @@ class WebSerial extends EventTarget {
 
     async connect(options) {
         this.openRequested = true;
-        this.port = await navigator.serial.requestPort({
-            filters: webSerialDevices,
-        });
+        // this.port = await navigator.serial.requestPort({
+        //     filters: webSerialDevices,
+        // });
 
-        await this.port.open(options);
-        const connectionInfo = this.port.getInfo();
-        this.connectionInfo = connectionInfo;
-        this.writer = this.port.writable.getWriter();
-        this.reader = this.port.readable.getReader();
+        // await this.port.open(options);
+        // const connectionInfo = this.port.getInfo();
+        // this.connectionInfo = connectionInfo;
+        // this.writer = this.port.writable.getWriter();
+        // this.reader = this.port.readable.getReader();
 
-        if (connectionInfo && !this.openCanceled) {
+        // if (connectionInfo && !this.openCanceled) {
             this.connected = true;
-            this.connectionId = connectionInfo.connectionId;
-            this.bitrate = options.baudrate;
+            this.connectionId = "fdfssdfs";
+            this.bitrate = 123;
             this.bytesReceived = 0;
             this.bytesSent = 0;
             this.failed = 0;
             this.openRequested = false;
 
-            this.addEventListener("receive", this.handleReceiveBytes);
-            this.addEventListener('disconnect', this.handleDisconnect);
+            // this.addEventListener("receive", this.handleReceiveBytes);
+            // this.addEventListener('disconnect', this.handleDisconnect);
 
             console.log(
-                `${this.logHead} Connection opened with ID: ${connectionInfo.connectionId}, Baud: ${options.baudRate}`,
+                `${this.logHead} Connection opened with ID: , Baud:`,
             );
 
             this.dispatchEvent(
-                new CustomEvent("connect", { detail: connectionInfo }),
+                new CustomEvent("connect", { detail: true }),
             );
             // Check if we need the helper function or could polyfill
             // the stream async iterable interface:
             // https://web.dev/streams/#asynchronous-iteration
 
 
-            this.reading = true;
-            for await (let value of streamAsyncIterable(this.reader, () => this.reading)) {
-                this.dispatchEvent(
-                    new CustomEvent("receive", { detail: value }),
-                );
-            }
-        } else if (connectionInfo && this.openCanceled) {
-            this.connectionId = connectionInfo.connectionId;
+            // this.reading = true;
+            // for await (let value of streamAsyncIterable(this.reader, () => this.reading)) {
+            //     this.dispatchEvent(
+            //         new CustomEvent("receive", { detail: value }),
+            //     );
+            // }
 
-            console.log(
-                `${this.logHead} Connection opened with ID: ${connectionInfo.connectionId}, but request was canceled, disconnecting`,
-            );
-            // some bluetooth dongles/dongle drivers really doesn't like to be closed instantly, adding a small delay
-            setTimeout(() => {
-                this.openRequested = false;
-                this.openCanceled = false;
-                this.disconnect(() => {
-                    this.dispatchEvent(new CustomEvent("connect", { detail: false }));
-                });
-            }, 150);
-        } else if (this.openCanceled) {
-            console.log(
-                `${this.logHead} Connection didn't open and request was canceled`,
-            );
-            this.openRequested = false;
-            this.openCanceled = false;
-            this.dispatchEvent(new CustomEvent("connect", { detail: false }));
-        } else {
-            this.openRequested = false;
-            console.log(`${this.logHead} Failed to open serial port`);
-            this.dispatchEvent(new CustomEvent("connect", { detail: false }));
-        }
     }
 
     async disconnect() {

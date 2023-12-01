@@ -1,7 +1,7 @@
 <template>
   <div
     id="firmware-virtual-option"
-    :style="{ display: isVirtual ? 'block' : 'none' }"
+    :style="{ display: 'block' }"
   >
     <div class="dropdown dropdown-dark">
       <select
@@ -49,7 +49,7 @@ export default {
     width: 180px;
     margin-right: 15px;
     margin-top: 16px;
-    display: none;
+    //display: none;
 }
 .dropdown {
     display: inline-block;

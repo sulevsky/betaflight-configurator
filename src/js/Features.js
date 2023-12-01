@@ -6,7 +6,7 @@ import $ from 'jquery';
 
 const Features = function (config) {
     const self = this;
-
+    config.apiVersion = "1.46.0";
     const features = [
         {bit: 0, group: 'rxMode', mode: 'select', name: 'RX_PPM'},
         {bit: 2, group: 'other', name: 'INFLIGHT_ACC_CAL'},

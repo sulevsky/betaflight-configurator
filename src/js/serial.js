@@ -29,14 +29,14 @@ const serial = {
     connect: function (path, options, callback) {
         const self = this;
         const testUrl = path.match(/^tcp:\/\/([A-Za-z0-9\.-]+)(?:\:(\d+))?$/);
-
-        if (testUrl) {
-            self.connectTcp(testUrl[1], testUrl[2], options, callback);
-        } else if (path === 'virtual') {
             self.connectVirtual(callback);
-        } else {
-            self.connectSerial(path, options, callback);
-        }
+
+        // if (testUrl) {
+        //     self.connectTcp(testUrl[1], testUrl[2], options, callback);
+        // } else if (path === 'virtual') {
+        // } else {
+        //     self.connectSerial(path, options, callback);
+        // }
     },
     connectSerial: function (path, options, callback) {
         const self = this;

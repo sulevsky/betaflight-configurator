@@ -52,20 +52,20 @@ function disconnectHandler(event) {
 export function initializeSerialBackend() {
     GUI.updateManualPortVisibility = function() {
         const selected_port = $('div#port-picker #port option:selected');
-        if (selected_port.data().isManual) {
             $('#port-override-option').show();
-        }
-        else {
-            $('#port-override-option').hide();
-        }
-        if (selected_port.data().isVirtual) {
+        // if (selected_port.data().isManual) {
+        // }
+        // else {
+        //     $('#port-override-option').hide();
+        // }
             $('#firmware-virtual-option').show();
-        }
-        else {
-            $('#firmware-virtual-option').hide();
-        }
+        // if (selected_port.data().isVirtual) {
+        // }
+        // else {
+        //     $('#firmware-virtual-option').hide();
+        // }
 
-        $('#auto-connect-and-baud').toggle(!selected_port.data().isDFU);
+        // $('#auto-connect-and-baud').toggle(!selected_port.data().isDFU);
     };
 
     GUI.updateManualPortVisibility();
@@ -87,12 +87,12 @@ export function initializeSerialBackend() {
     $("div.connect_controls a.connect").on('click', function () {
 
         const selectedPort = $('div#port-picker #port option:selected');
-        let portName;
-        if (selectedPort.data().isManual) {
-            portName = $('#port-override').val();
-        } else {
-            portName = String($('div#port-picker #port').val());
-        }
+        let portName = "virtual";
+        // if (selectedPort.data().isManual) {
+        //     portName = $('#port-override').val();
+        // } else {
+        //     portName = String($('div#port-picker #port').val());
+        // }
 
         if (!GUI.connect_lock) {
             // GUI control overrides the user control
@@ -114,11 +114,12 @@ export function initializeSerialBackend() {
                     $('div.connect_controls div.connect_state').text(i18n.getMessage('connecting'));
 
                     const baudRate = parseInt($('div#port-picker #baud').val());
-                    if (selectedPort.data().isVirtual) {
+                    if (true) {
                         CONFIGURATOR.virtualMode = true;
                         CONFIGURATOR.virtualApiVersion = $('#firmware-version-dropdown :selected').val();
 
-                        serial.connect('virtual', {}, onOpenVirtual);
+                        // serial.connect('virtual', {}, onOpenVirtual);
+                        onOpenVirtual()
                     } else if (isWeb()) {
                         // Explicitly disconnect the event listeners before attaching the new ones.
                         serial.removeEventListener('connect', connectHandler);
